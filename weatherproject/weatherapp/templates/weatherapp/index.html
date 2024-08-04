@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/style.css">
+    <title>Weather App</title>
+</head>
+
+<body>
+    <header>
+        <div id="logo"><img src="static/img/welogo.png" alt="Weather app logo" height="35px"><span>WeatherApp</span></div>
+        <div class="datetime">
+            <p>{{forecast.0.day}}</p>
+        </div>
+    </header>
+    <main>
+        <div class="form">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="city" class="form-field" placeholder="Enter City">
+                <button class="b-pri" type="submit">Search</button>
+            </form>
+        </div>
+        <h2 class="app-title">Current Weather</h2>
+        <div class="main-container">
+            <div class="part1">
+                <h2>{{city}}</h3>
+                <img class="weather-icon" src="http://openweathermap.org/img/w/{{ forecast.0.icon }}.png">
+                <h2 class="temp">{{forecast.0.temp}}°C</h2>
+            </div>
+            <div class="part2">
+                <h3>{{forecast.0.description}}</h3>
+                <h4>{{forecast.0.summary}}</h4>
+                <div>
+                    <div>
+                        <img src="static/img/humidity.png" width="50px">
+                        <h5>Humidity</h5>
+                        <h5>{{forecast.0.humidity}}%</h5>
+                    </div>
+                    <div>
+                        <img src="static/img/wind.png" width="45px">
+                        <h5>Wind</h5>
+                        <h5>{{forecast.0.wind}} km/h</h5>
+                    </div>
+                    <div>
+                    <img src="static/img/pressure.png" width="45px">
+                        <h5>Pressure</h5>
+                        <h5>{{forecast.0.pressure}} mb</h5 >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="fore-title">5 Days Forecast</h3>
+        <div class="forecast">
+            {% for f in forecast %}
+            <div class="card">
+                <div class="col-1">
+                    <div>{{ f.day }}</div>
+                    <div><img src="http://openweathermap.org/img/w/{{ f.icon }}.png" alt="{{ f.summary }}"></div>
+                </div>
+                <div class="col-2">
+                    <div>{{ f.highest_temp }}°C</div>
+                    <div>{{ f.lowest_temp }}°C</div>
+                </div>
+                <div class="col-3">
+                    <div>{{ f.summary }}</div>
+                    <div>{{ f.humidity }}%</div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </main>
+</body>
+
+</html>
